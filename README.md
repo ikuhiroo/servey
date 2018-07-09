@@ -70,3 +70,32 @@ MusicVAEモデルを使わない場合と使う場合で実験．
 ##### ・subtract/Add Note Density Vector  
 latent-codeへ「note density vector」を加えることで，音色を調整する．  
 latent-codeから「note density vector」を取り除くことで，音色を調整する．  
+
+## VAEとGANの違い  
+[（参考）VAEとGANの違い](https://www.xcompass.com/blog/1039/)
+### VAE(Variational Autoencoder， 変化のAE)  
+#### VAEの学習の流れ  
+⑴ データセットからデータをサンプリングしてEncoderに入力する  
+⑵ Encoderは出力次元(多次元)に相当する潜在分布の平均と分散を出力する  
+⑶ 潜在分布の平均と分散から、潜在変数zをサンプリングし、zを作る  
+⑷ 潜在変数zをDecoderに入力し、Decoderはデータを出力する  
+⑸ サンプリングされたデータそのものを復元するようにEncoderとDecoderを学習し、  
+Encoderは復元の為の学習に加えて、仮定した事前分布に近くなるよう学習する  
+#### VAEの問題点  
+複雑なデータセットを用いると画像がぼやける  
+
+### GAN(Genarative Adversarial Nets， 対立する生成モデルネット)  
+#### GANの学習の流れ  
+>(1)潜在空間(z)から`Generator`はデータを作成する  
+>(2)`Discriminator`は、`Generator`から作られたデータか、実際のデータセットから来たデータかを判別する  
+>(3)・`Generator`は作ったデータを`Discriminator`が実際のデータセットから来たデータだと間違えるように、  
+実際のデータセットらしいデータを作成するように学習する  
+・`Discriminator`はそれに騙されないように，実際のデータセットと`Generator`から作られたデータかを判別できるように学習する  
+#### GANの問題点  
+・`mode collapse`  
+学習するにつれて，生成する分布が最頻値に寄ってしまう現象で，`Generator`が同じような画像を生成してしまう  
+・途中でサンプリングが入るため，逆伝播できない
+> Reparameterization trick?
+
+## Importance Weighted Autoencoders（IWAE）  
+モデルの容量を変化させた場合のパフォーマンスをVAEと比較．  
