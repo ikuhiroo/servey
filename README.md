@@ -36,11 +36,12 @@ ex. 音声を生成可能
 #### SketchRNN
 「the latent space」上の点と点の間を補間するためにする学習法  
 
-##### latent constraints  
+##### ・latent constraints  
 「the latent space」上で点と点の計算が可能．  
 与えられたデータセットを紐解きが可能．  
 
-##### how to learn?
-
-
-#### Nsynth
+##### ・how to learn?
+NsynthはAutoencoderの一例  
+・Autoencoderの問題点  
+「the latent space」に穴があるため，高次元空間に写像できない可能性がある．  
+つまり，音色を生成できない．  
