@@ -4,7 +4,11 @@
 [(参考)MusicVAEの日本語資料(1)](https://github.com/arXivTimes/arXivTimes/issues/680)  
 ### どんなものか？  
 音楽を「混ぜる」ことができる．  
-名前の通りVAEがベースで、Encoderは双方向LSTM、Decoderは階層上の構成(バッチで生成を行うイメージで、現バッチ生成用の潜在表現を作るLSTMと、そこから音符を生成するLSTMの二段構造)になっている．  
+名前の通りVAEがベースで、  
+Encoderは双方向LSTM、  
+Decoderは階層上の構成  
+（バッチで生成を行うイメージで、現バッチ生成用の潜在表現を作るLSTMと、そこから音符を生成するLSTMの二段構造)  
+になっている．  
 
 >[VAE（Variatioinal Autoencoder）について](https://qiita.com/kenmatsu4/items/b029d697e9995d93aa24)  
 生成モデルの１つで，訓練データを元にその特徴を捉えて訓練データセットと似たデータを生成することができる．  
@@ -24,24 +28,43 @@ VAEは潜在変数zが正規分布に従うように設計されている．
 潜在変数zが正規分布として分布するように学習させて，p(X)（エビデンス）を推定する．     
 
 ### 技術や手法  
-#### Latent spaceの特徴   
+#### Latent-spaces（潜在空間）の特徴   
 1, `Expression`  
-高次元の任意の点は低次元の「the latent space」に写像され，元の高次元空間に写像可能  
-ex. 音声を生成可能
+高次元空間上の任意の点は，低次元のLatent-spacesに写像される．  
+また，Latent-spaceの点は元の高次元空間に写像可能である．    
 2, `Realism`
-「the latent space」上の点は，複数の音色に対応する．   
+Latent-spaces上の点は，複数の音色に対応するため，  
+学習標本にない音色も生成可能である．  
 3, `Smoothness`
-似た形状のもの（同じクラス）を近くに引き寄せる効果がある．   
+Latent-spaces上において，近い点同士は似た音色となる． 
 
-#### SketchRNN
-「the latent space」上の点と点の間を補間するためにする学習法  
+・`Expression` & `Smoothness`  
+Latent-spaces上の点と点の間を補間するSketchRNNを用いる．  
+・`Realism`  
+Latent-spaces上から任意に選んだ点をdecodeすると，  
+学習標本と似たような新しい生成物ができる．  
 
-##### ・latent constraints  
-「the latent space」上で点と点の計算が可能．  
-与えられたデータセットを紐解きが可能．  
+##### ・latent constraints（意味的な制約）  
+Latent-spaces上で点と点の計算が可能なため，  
+与えられたデータセットの紐解きが可能．  
+Latent-spaces上の点の平均は， 求められている生成物を表す．   
 
 ##### ・how to learn?
-NsynthはAutoencoderの一例  
+NsynthはAutoencoderの一例．  
+多変量正規分布を考慮したLatent-codesを生成する．  
+損失関数に`the variational loss`を用いることがポイント．  
 ・Autoencoderの問題点  
 「the latent space」に穴があるため，高次元空間に写像できない可能性がある．  
 つまり，音色を生成できない．  
+
+##### ・実験  
+MusicVAEモデルを使わない場合と使う場合で実験．  
+使う方がより自然に切り替えができる．  
+
+##### ・Long-term Structure  
+・novel hierarchical decoder  
+それぞれのlatent-space上の点からlong-term structureを生成できる．  
+
+##### ・subtract/Add Note Density Vector  
+latent-codeへ「note density vector」を加えることで，音色を調整する．  
+latent-codeから「note density vector」を取り除くことで，音色を調整する．  
