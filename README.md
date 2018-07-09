@@ -1,5 +1,33 @@
 # survey  
 
+## [Deep Learningを用いた音楽生成手法のまとめ](https://medium.com/@naotokui/deep-learning%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9F%B3%E6%A5%BD%E7%94%9F%E6%88%90%E6%89%8B%E6%B3%95%E3%81%AE%E3%81%BE%E3%81%A8%E3%82%81-%E3%82%B5%E3%83%BC%E3%83%99%E3%82%A4-1298d29f8101)  
+### 評価軸  
+・メロディー  
+・ハーモニー  
+・伴奏/コード進行  
+・リード・シート（ジャズ等で使われるメロディーと和音、歌詞のみを書き起こした記法）  
+・リズム  
+### 表現（Representation） 
+#### 音声信号を扱う ex.WaveNet
+#### 移調（Transposition）
+「Data Augmentation」と同様に，学習データにある曲を別のキーに移調することで，データ量を増やす  
+### アーキテクチャー
+#### 多層ニューラルネットワーク
+RNNと比べて時系列を考慮しないので，一音一音生成するのではなく，ある入力に対して全体を出力する．
+### RNN(Recurrent Neural Network)
+一音一音生成する．発展系はLSTM．  
+### Autoencoder  
+入力に等しい出力，入力を真似するような出力を出すように学習するニューラルネットワーク．
+AEに考え方が近いものとして，RBM(Restiricted Boltzman Machine)やVAE(Variational AE)などがある．
+### CNN(Convolutional Neural Network)  
+### GAN(Generative Adversarial Networks)  
+GANは安定的に学習させるのが難しい  
+(Generator/Discriminatorのどちらかが賢くなりすぎて相手を騙せなくなってしまう)  
+GANを安定的に学習させる手法に関する研究が進むとともに、  
+GANを用いた音楽生成も今後ホットなトピックになりそうです  
+### RL(Reinforcement Learning)  
+強化学習
+
 ## [（参考）MusicVAE](https://magenta.tensorflow.org/music-vae)
 [(参考)MusicVAEの日本語資料(1)](https://github.com/arXivTimes/arXivTimes/issues/680)  
 ### どんなものか？  
@@ -84,7 +112,7 @@ Encoderは復元の為の学習に加えて、仮定した事前分布に近く�
 #### VAEの問題点  
 複雑なデータセットを用いると画像がぼやける  
 
-### GAN(Genarative Adversarial Nets， 対立する生成モデルネット)  
+### GAN(Genarative Adversarial Nets， 生成的敵対ネットワーク)  
 #### GANの学習の流れ  
 >(1)潜在空間(z)から`Generator`はデータを作成する  
 >(2)`Discriminator`は、`Generator`から作られたデータか、実際のデータセットから来たデータかを判別する  
