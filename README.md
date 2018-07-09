@@ -43,11 +43,13 @@ Latent-spaces上の点と点の間を補間するSketchRNNを用いる．
 ・`Realism`  
 Latent-spaces上から任意に選んだ点をdecodeすると，  
 学習標本と似たような新しい生成物ができる．  
+人間の理解の幅を超えた生成物を作れる．  
 
-##### ・latent constraints（意味的な制約）  
-Latent-spaces上で点と点の計算が可能なため，  
-与えられたデータセットの紐解きが可能．  
-Latent-spaces上の点の平均は， 求められている生成物を表す．   
+##### ・latent constraints（意味的な制約） 
+高次元空間で難しいような操作を，  
+Latent-spaces上でベクトル同士の演算で可能．  
+→ 与えられたデータセットの紐解きが可能．  
+→ Latent-spaces上の点の平均は， 求められている生成物を表す．   
 
 ##### ・how to learn?
 NsynthはAutoencoderの一例．  
