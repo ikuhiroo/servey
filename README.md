@@ -108,19 +108,12 @@
 #### ・マルチトラックに対してもMusicVAEモデルを適用できるように，latent-spaceの尺度を工夫した
 #### ・[デモ](https://storage.googleapis.com/magentadata/papers/multitrack/index.html)
 
-## DeepBach  
-### ・[DeepBach 論文](http://proceedings.mlr.press/v70/hadjeres17a/hadjeres17a.pdf)  
-### ・[DeepBach 参考資料](http://createwith.ai/paper/20161219/46)
-### ・[DeepBach github](https://github.com/axelbrando/Mixture-Density-Networks-for-distribution-and-uncertainty-estimation/)
-### ・[DeepBach デモ](https://youtu.be/QiBM7-5hA6o)
-### ・バッハ風の楽曲の生成
-### ・feedforward networkとLSTMの組み合わせ  
-
 ## Melody-RNN  
 ### ・[Melody-RNN 論文](http://cs229.stanford.edu/proj2016/report/Lou-MusicGenerationUsingNeuralNetworks-report.pdf)  
 ### ・[Melody-RNN github](https://github.com/tensorflow/magenta/tree/master/magenta/models/melody_rnn)
 ### ・[Melody-RNN（３つのモデル） デモ](https://soundcloud.com/vgtsv6jf5fwq/sets)
-### ・a simple duallayer LSTM network
+### ・LSTMでメロディを生成する
+### ・1音ずつメロディを与えていき、次の音符を予測する
 ### ・Google’s open source project Magenta
 #### 実装環境が整っている
 #### RNNを利用して音楽や芸術作品を創りだそうと発表されたプロジェクト
@@ -128,22 +121,7 @@
 #### 入出力にOne-hot Vectorを使用
 ### ・モデル2 : the lookback RNN
 ### ・モデル3 : the attention RNN
-
-## WaveNet  
-### ・[WaveNet 論文](http://cs229.stanford.edu/proj2016/report/Lou-MusicGenerationUsingNeuralNetworks-report.pdf)
-### ・[wavenet github](https://github.com/ibab/tensorflow-wavenet)
-### ・[wavenet デモ](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)
-### ・CNNを用いる
-### ・学習時間がRNNと比べて早い
-
-## MIDINET  
-### ・[MIDINET 論文](https://arxiv.org/pdf/1703.10847.pdf)
-### ・[MIDINET 参考資料](http://createwith.ai/paper/20170709/863)
-### ・[MIDINET github](https://github.com/RichardYang40148/MidiNet)
-### ・[MIDINET デモ](https://soundcloud.com/vgtsv6jf5fwq/sets)
-### ・論文中のtable1で各手法比較されている
-### ・GANを用い，Generator, DiscriminatorともにCNNの構造
-#### MidiNet with three MelodyRNN models pre-trainedの比較（the basic RNN, the lookback RNN, and the attention RNN）
+### ・core model = RNN
 
 ## Song from PI
 ### ・[Song from PI 論文](https://arxiv.org/pdf/1611.03477.pdf)
@@ -152,12 +130,51 @@
 ### ・hierarchical RNN model
 ### ・generating pop music
 ### ・GoogleのMagentaより圧倒的に評価の良い音楽を生成
+### ・core model = RNN
+### ・generate multi-track music
+
+## DeepBach  
+### ・[DeepBach 論文](http://proceedings.mlr.press/v70/hadjeres17a/hadjeres17a.pdf)  
+### ・[DeepBach 参考資料](http://createwith.ai/paper/20161219/46)
+### ・[DeepBach github](https://github.com/axelbrando/Mixture-Density-Networks-for-distribution-and-uncertainty-estimation/)
+### ・[DeepBach デモ](https://youtu.be/QiBM7-5hA6o)
+### ・バッハ風の楽曲の生成
+### ・feedforward networkとLSTMの組み合わせ  
+### ・core model = RNN
+### ・対象 = バッハの曲
+### ・generate multi-track music
 
 ## C-RNN-GAN
 ### ・[C-RNN-GAN 論文](https://arxiv.org/pdf/1611.09904.pdf)
 ### ・[C-RNN-GAN github](https://github.com/olofmogren/c-rnn-gan)
 ### ・[C-RNN-GAN デモ](https://soundcloud.com/deeplearning-music/sets)
-### ・GANのGenerator, DiscriminatorはともにLSTM
 ### ・GANの学習を安定化させる手法（[feature matching](https://arxiv.org/abs/1702.08398)）
 ### ・only existing model that uses GAN for music generation
+### ・core model = RNN
+### ・use GAN
+### ・GANのGenerator, DiscriminatorはともにLSTM
 
+## MIDINET  
+### ・[MIDINET 論文](https://arxiv.org/pdf/1703.10847.pdf)
+### ・[MIDINET 参考資料](http://createwith.ai/paper/20170709/863)
+### ・[MIDINET github](https://github.com/RichardYang40148/MidiNet)
+### ・[MIDINET デモ１](https://soundcloud.com/vgtsv6jf5fwq/sets)
+### ・[MIDINET デモ２ 1D vs 2D conditions](https://richardyang40148.github.io/TheBlog/midinet_arxiv_demo.html)
+### ・論文中のtable1で各手法比較されている
+Melody-RNN, Song from PI, DeepBach, C-RNN-GAN, MIDINET, WaveNet
+### ・core model = CNN
+### ・use GAN
+### ・GANを用い，Generator, DiscriminatorともにCNNの構造
+### ・GANは画像認識ではよく用いられるが音楽生成では例が少ない
+### ・generate multi-track music
+### ・注目されている
+
+## WaveNet  
+### ・[WaveNet 論文](http://cs229.stanford.edu/proj2016/report/Lou-MusicGenerationUsingNeuralNetworks-report.pdf)
+### ・[WaveNet 参考資料](https://qiita.com/szukiyu/items/0cd32c22101d1d5ba134)
+### ・[wavenet github](https://github.com/ibab/tensorflow-wavenet)
+### ・[Nsynth デモ（元の音源）](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)
+### ・[Nsynth デモ（デコード後）](https://soundcloud.com/yu-suzuki-8/skoz-04-skoz-sympho-nick)
+### ・グーグルアシスタントに搭載されている
+### ・core model = CNN
+### ・generate multi-track music
