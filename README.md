@@ -5,7 +5,13 @@
 ### 音楽生成の論文を集める  
 ### ソースコードが載ってるもの重視
 
-## [Deep Learningを用いた音楽生成手法のまとめ](https://medium.com/@naotokui/deep-learning%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9F%B3%E6%A5%BD%E7%94%9F%E6%88%90%E6%89%8B%E6%B3%95%E3%81%AE%E3%81%BE%E3%81%A8%E3%82%81-%E3%82%B5%E3%83%BC%E3%83%99%E3%82%A4-1298d29f8101)  
+## 構成
+### 1. 	記事 : Deep Learningを用いた音楽生成手法のまとめ
+### 2.	MusicVAE
+### 3.	MusicVAEの関連論文
+### 4.	他の音楽生成の手法
+
+## [1.	記事 : Deep Learningを用いた音楽生成手法のまとめ](https://medium.com/@naotokui/deep-learning%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9F%B3%E6%A5%BD%E7%94%9F%E6%88%90%E6%89%8B%E6%B3%95%E3%81%AE%E3%81%BE%E3%81%A8%E3%82%81-%E3%82%B5%E3%83%BC%E3%83%99%E3%82%A4-1298d29f8101)  
 ### ●評価軸  
 #### ・メロディー  
 #### ・ハーモニー  
@@ -31,7 +37,7 @@
 #### ・RL(Reinforcement Learning)  
 ##### 強化学習
 
-## [MusicVAE](https://magenta.tensorflow.org/music-vae)
+## [2.	MusicVAE](https://magenta.tensorflow.org/music-vae)
 [(参考)MusicVAEの日本語資料(1)](https://github.com/arXivTimes/arXivTimes/issues/680)  
 ### ●どんなものか？  
 #### ・音楽を「混ぜる」ことができる．  
@@ -78,40 +84,42 @@
 ### ●デモ 
 #### MusicVAEモデルを使わない場合と使う場合で実験．使う方がより自然に切り替えができる．  
 
-## VAEとGANの違い  
+###  VAEとGANの違い  
 [（参考）VAEとGANの違い](https://www.xcompass.com/blog/1039/)
-### ●VAE(Variational Autoencoder， 変化のAE)  
-#### ・VAEの学習の流れ  
+#### ●VAE(Variational Autoencoder， 変化のAE)  
+##### ・VAEの学習の流れ  
 ##### ⑴ データセットからデータをサンプリングしてEncoderに入力する  
 ##### ⑵ Encoderは出力次元(多次元)に相当する潜在分布の平均と分散を出力する  
 ##### ⑶ 潜在分布の平均と分散から、潜在変数zをサンプリングし、zを作る  
 ##### ⑷ 潜在変数zをDecoderに入力し、Decoderはデータを出力する  
 ##### ⑸ サンプリングされたデータそのものを復元するようにEncoderとDecoderを学習し、  Encoderは復元の為の学習に加えて、仮定した事前分布に近くなるよう学習する  
-#### ・VAEの問題点  
+##### ・VAEの問題点  
 ##### 複雑なデータセットを用いると画像がぼやける  
 
-### ●GAN(Genarative Adversarial Nets， 生成的敵対ネットワーク)  
-#### ・GANの学習の流れ  
+#### ●GAN(Genarative Adversarial Nets， 生成的敵対ネットワーク)  
+##### ・GANの学習の流れ  
 ##### (1)潜在空間(z)から`Generator`はデータを作成する  
 ##### (2)`Discriminator`は、`Generator`から作られたデータか、実際のデータセットから来たデータかを判別する  
 ##### (3)・`Generator`は作ったデータを`Discriminator`が実際のデータセットから来たデータだと間違えるように、  実際のデータセットらしいデータを作成するように学習する．`Discriminator`はそれに騙されないように，実際のデータセットと`Generator`から作られたデータかを判別できるように学習する．
 
-#### ・GANの問題点  
+##### ・GANの問題点  
 ##### ・`mode collapse`  
 ###### 学習するにつれて，生成する分布が最頻値に寄ってしまう現象で，`Generator`が同じような画像を生成してしまう．途中でサンプリングが入るため，逆伝播できない．
 > Reparameterization trick?
 
-## MusicVAEの関連論文
+## 3.	MusicVAEの関連論文
 ### ●LEARNING A LATENT SPACE OF MULTITRACK MEASURES
 #### ・[論文](https://arxiv.org/pdf/1806.00195.pdf)
 #### ・[github](https://github.com/tensorflow/magenta)
 #### ・マルチトラックに対してもMusicVAEモデルを適用できるように，latent-spaceの尺度を工夫した
 #### ・[デモ](https://storage.googleapis.com/magentadata/papers/multitrack/index.html)
 
-## Melody-RNN  
+## 4.	他の音楽生成の手法
+## ◉Melody-RNN  
 ### ・[Melody-RNN 論文](http://cs229.stanford.edu/proj2016/report/Lou-MusicGenerationUsingNeuralNetworks-report.pdf)  
 ### ・[Melody-RNN github](https://github.com/tensorflow/magenta/tree/master/magenta/models/melody_rnn)
 ### ・[Melody-RNN（３つのモデル） デモ](https://soundcloud.com/vgtsv6jf5fwq/sets)
+#### 後のMIDINETで詳しく説明する
 ### ・LSTMでメロディを生成する
 ### ・1音ずつメロディを与えていき、次の音符を予測する
 ### ・Google’s open source project Magenta
@@ -119,8 +127,12 @@
 #### RNNを利用して音楽や芸術作品を創りだそうと発表されたプロジェクト
 ### ・[モデル1 : the basic RNN](http://johoko.blog.fc2.com/blog-entry-29.html)
 #### 入出力にOne-hot Vectorを使用
+#### コード進行、曲の展開が自然でない、メロディのつながりも微妙
 ### ・モデル2 : the lookback RNN
+#### モデル１のOne-hot Vectorに新しい情報を追加する
 ### ・モデル3 : the attention RNN
+#### 過去のRNNの出力を毎回のステップで参照する
+#### ３つの中で一番良いモデル
 ### ・core model = RNN
 
 ## Song from PI
@@ -154,11 +166,16 @@
 ### ・use GAN
 ### ・GANのGenerator, DiscriminatorはともにLSTM
 
-## MIDINET  
+## ◉MIDINET  
 ### ・[MIDINET 論文](https://arxiv.org/pdf/1703.10847.pdf)
 ### ・[MIDINET 参考資料](http://createwith.ai/paper/20170709/863)
 ### ・[MIDINET github](https://github.com/RichardYang40148/MidiNet)
 ### ・[MIDINET デモ１](https://soundcloud.com/vgtsv6jf5fwq/sets)
+#### model1 : 直前の小節のみ使用
+#### model2 : 直前の小節とコードを使用（直前の小節情報は最後の畳み込み層でのみconcatする．コードは全ての層でconcatする）
+#### model3 : 直前の小節とコードを使用（直前の小節情報とコードは全ての層でconcatする）
+#### model1は小節全てを使用しているMelody-RNNとほぼ同じ評価
+#### model2の評価が一番高いが，音楽経験者からするとmodel1がinteresting
 ### ・[MIDINET デモ２ 1D vs 2D conditions](https://richardyang40148.github.io/TheBlog/midinet_arxiv_demo.html)
 ### ・論文中のtable1で各手法比較されている
 Melody-RNN, Song from PI, DeepBach, C-RNN-GAN, MIDINET, WaveNet
@@ -173,8 +190,10 @@ Melody-RNN, Song from PI, DeepBach, C-RNN-GAN, MIDINET, WaveNet
 ### ・[WaveNet 論文](http://cs229.stanford.edu/proj2016/report/Lou-MusicGenerationUsingNeuralNetworks-report.pdf)
 ### ・[WaveNet 参考資料](https://qiita.com/szukiyu/items/0cd32c22101d1d5ba134)
 ### ・[wavenet github](https://github.com/ibab/tensorflow-wavenet)
-### ・[Nsynth デモ（元の音源）](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)
-### ・[Nsynth デモ（デコード後）](https://soundcloud.com/yu-suzuki-8/skoz-04-skoz-sympho-nick)
+### ・[Nsynth デモ1（元の音源）](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)
+### ・[Nsynth デモ1（デコード後）](https://soundcloud.com/yu-suzuki-8/skoz-04-skoz-sympho-nick)
+### ・[Nsynth デモ2](https://www.youtube.com/embed/Y8UawLT4it0)
+### ・生の波形から音声を生成する（音声合成の分野）
 ### ・グーグルアシスタントに搭載されている
 ### ・core model = CNN
 ### ・generate multi-track music
