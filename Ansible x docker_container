@@ -1,0 +1,68 @@
+Ansible x docker_container
+● 題材
+node-exporter と dcgm-exporter を 導入する
+•	dcgm-exporter で GPUのメトリクスを取得する
+/run/prometheus/dcgm.prom
+•	node-exporter に GPUのメトリクスを追加する
+→ dcgm-exporterコンテナをvolumeコンテナとして使う
+•	ホストの/run/prometheus にメトリクス情報がたまる
+● docker-pyかdockerか
+● dockerオプション
+--runtime=nvidia
+--net=host
+--pid=host
+--path.rootf
+--collector.textfile.directory
+● Ansible docker_containerオプション
+https://docs.ansible.com/ansible/latest/modules/docker_container_module.html
+state: started
+network_mode: host
+pid_mode: host
+restart: yes
+● コンテナ作成（dcgm-exporter）
+$ docker run -d \
+--name=nvidia-dcgm-exporter \
+--runtime=nvidia \
+--rm \
+-v /run/prometheus:/run/prometheus \
+nvidia/dcgm-exporter \
+
+$ docker run \
+--name=node_exporter
+-d \
+--net="host" \
+--pid="host" \
+-v "/:/host:ro,rslave" \
+--volumes-from nvidia-dcgm-exporter:ro \
+--path.rootfs=/host \
+--collector.textfile.directory="/run/prometheus" \
+quay.io/prometheus/node-exporter \
+● Ansibleでコンテナ作成する場合（dcgm-exporter）
+---
+- name: docker-py install
+  pip: 
+    name: docker==2.4.0
+
+- name: run nvidia-dcgm-exporter
+  docker_container:
+    name: nvidia-dcgm-exporter
+    state: started
+    image: "{{nvidia_dcgm_exporter_image}}"
+    volumes:
+      - /run/prometheus:/run/prometheus
+    runtime: nvidia
+    restart: yes
+
+- name: Add the GPU metrics directly to node-expoter container
+  docker_container:
+    name: node_exporter
+    state: started
+    image: "{{ node_exporter_image }}"
+    volumes:
+      - /:/host:ro,rslave
+    volumes_from:
+      - nvidia-dcgm-exporter:ro
+    network_mode: host
+    pid_mode: host
+    restart: yes
+    command: --path.rootfs /host --collector.textfile.directory="/run/prometheus"
