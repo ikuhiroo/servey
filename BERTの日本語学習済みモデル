@@ -1,0 +1,42 @@
+BERTの日本語学習済みモデル
+●何についてか
+2018年の自然言語処理（NLP）分野において続々と発表された強力な言語モデルの1つにBERT（Bidirectional Encoder Representations from Transformers）がある．BERTは様々なNLPタスクでSOTA（state-of-the-art）を達成したことでも有名である．
+
+BERTは言語依存がなく，様々な言語に適用可能であるため
+日本語学習済みモデルを作るぞ！
+と思ってもそれには途方もない莫大なリソースを必要とする．
+
+幸運にも，京都大学などの研究機関がBERTの日本語学習済みモデルを公開している．
+この記事では現在（2019/9）公開されているBERTの日本語学習済みモデルの紹介と各モデルの事前学習タスクの精度検証の説明を行う．
+●BERTの特徴
+•	双方向の言語モデルを事前学習する
+•	Task specific-Models
+双方向の言語モデルを事前学習する
+「マスク語予測（Masked LM）」と「隣接文予測（Next Sentence Prediction）」により双方向の言語モデルを実現する．
+Task specific-Models
+文の先頭に付与したタグ（[CLS]）のEncoder結果を入力として分類器を構築する．
+BERTモデルに接続した層のパラメータとBERTのパラメータを最適化することで転移学習を行う．
+事前学習で用いたデータセットと別のデータセットで転移学習しても良い性能となる．
+●BERTの事前学習をするためのリソース
+●日本語学習済みモデル
+１．SentencePiece + 日本語Wikipedia
+学習済みモデル
+２．Juman++BPE + 日本語Wikipedia
+学習済みモデル
+３．Mecab+NEologd + 大規模日本語ビジネスコーパス
+学習済みモデル
+
+論文に掲載されている実験結果と異なる場合は，
+公開されているモデルがデータセットを削減して作られている可能性がある点に注意する．
+●レポジトリ
+詳細は以下のレポジトリに記載しているが，
+３種の日本語学習済みモデルの事前学習タスクの精度検証を行った．
+
+https://bitbucket.org/9dw/bert-jpn/src/master/ 
+
+以下で検証結果をまとめた．
+https://drive.google.com/open?id=1VNj6gluMp0ttEWzDdXNVwda8pAOX_xn9 
+●次やること
+•	OpenAI-gptとの違い
+●参考文献
+•	2018年の言語モデル概要
