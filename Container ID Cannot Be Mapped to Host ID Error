@@ -1,0 +1,29 @@
+Container ID Cannot Be Mapped to Host ID Error
+● 概要
+bitbuckets-pipelinesの作成時のエラー
+● 具体的なエラー内容
+Step 8/13 : COPY requirements.txt /home/docker/ai_hospital_app/
+ ---> 6368787dd6fe
+Step 9/13 : RUN pip3 install --upgrade pip
+ ---> Running in be759b773fcf
+Collecting pip
+  Downloading <https://files.pythonhosted.org/packages/5c/e0/be401c003291b56efc55aeba6a80ab790d3d4cece2778288d65323009420/pip-19.1.1-py2.py3-none-any.whl> (1.4MB)
+Installing collected packages: pip
+  Found existing installation: pip 18.1
+    Uninstalling pip-18.1:
+      Successfully uninstalled pip-18.1
+Successfully installed pip-19.1.1
+Service 'app' failed to build: Error processing tar file(exit status 1): Container ID 165586 cannot be mapped to a host ID
+•	CircleCIで"Container ID xxxxxx cannot be mapped to a host ID"なエラーが出た場合、Dockerイメージ側でtarコマンドを使っていないか確認すると問題が解決するかも
+● 具体的に
+•	Debugging Container ID Cannot Be Mapped to Host ID Error
+ホストマシンは、再マッピング用の有効なUID / GIDで設定されている
+•	UIDとGIDについて
+このUID / GIDは、0から65535の範囲内でなければならない
+今回は165586なので上記のエラーが出る
+このエラーを修正するには、ファイルのUID / GIDを更新してイメージを再作成する必要がある
+● 解決策
+Changes to make your containers more secure on Bitbucket Pipelines.
+•	pipの更新をやめる
+•	pip --user
+pipに--userをつけた時のインストール先を変える
