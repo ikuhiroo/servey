@@ -1,0 +1,12 @@
+ansible-playbookコマンドでIPを直接指定する
+● 概要
+•	jenkinsでprovisioningする際，IPを自由に設定できないと何かと不便
+•	hostsファイルにIPを直接書く方法もあるが，いちいちprovisionサーバーに入る必要があったり，hostsファイルのIPを上書きするなど不便
+•	ansible-playbookコマンドでIPを指定する方法が見つかった
+● 解決策
+ansible-playbook -u provision -i $target_ip, playbook/…
+● ansible-playbookの修正
+・playbookのhostsをallに変更
+・group_varsに書かれている変数（app_serversとcreate_user）を展開してrole内に書く（group_varsにallファイルを作っても変数を参照できなかったため）
+● jenkins側の修正
+・$target_ipを加え，パラメータ付きビルド
