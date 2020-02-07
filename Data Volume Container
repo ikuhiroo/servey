@@ -1,0 +1,59 @@
+Data Volume Container
+●Data Volume Containerとは
+複数コンテナで同じ場所をvolumeしたい場合に用いる
+•	busyboxイメージを、mycon1コンテナとして起動
+•	$ docker container run -it \
+•	--name mycon1 \
+•	-v $(pwd):/tmp/ \
+busybox
+•	mycon2コンテナを起動するときに、mycon1コンテナのvolumeを共有
+•	$ docker container run -it \
+•	--rm \
+•	--name mycon2 \
+•	--volumes-from mycon1 \
+busybox
+
+→ mycon2コンテナにも /tmp/ でvolumeが作られる
+→ volumeを共有されることだけを想定したコンテナ（mycon1コンテナ）をData volume containerという
+
+●どういう時にData Volume Containerを使うか
+１．全てではなく必要な部分だけを共有したい場合
+（例：postglesqlとMySQLとapacheが稼働しているコンテナでhttp用の領域のみを共有したいとしたとき）
+•	Data Volume Containerを使わない場合は分割するのが難しい
+•	$ docker container run --name cont0 \
+•	-v /host/postgresql:/var/postgresql \
+•	-v /host/mysql:/var/mysql \
+•	-v /host/httpd_doc:/var/apache/public \
+server1
+•	Data Volume Containerを用いると
+•	# 共通する領域（http用の領域）
+•	$ docker container run --name=vol_cont \
+•	-v /host/httpd_doc:/var/apache/public \
+server1
+# 以下のように２つのコンテナで共有する
+
+# cont1（全ての領域を共有）
+$ docker container run --name=cont1 \
+-v /host/postgresql:/var/postgresql \
+-v /host/mysql:/var/mysql \
+--volums-from=vol_cont server1
+
+# cont2（apacheのみ共有）
+$ docker container run --name cont2 \
+--volumes-from=vol_cont serv1
+２．２つの異なるホスト間の領域をコンテナを通して共有したいとき
+•	vol_contはData Volume Container
+•	$ ssh host1
+•	
+•	user@host1 $ docker container run --name=vol_cont \
+•	-v /host1/path:/val/path \
+busybox
+•	cont1上の/val/pathの中身は、host1の/host1/pathの領域になるはず
+•	$ ssh host2
+•	
+•	user@host2 $ docker container run --name=cont1 \
+•	--volumes-from=vol_cont \
+busybox
+● Data Volume Containerのどこがいいのか
+•	ボリュームコンテナを使うコンテナは、自身とホストサーバーのマウントポイントを気にしなくてもよい
+•	ボリュームコンテナをvolumes-fromとするのだけ覚えておけば良い
